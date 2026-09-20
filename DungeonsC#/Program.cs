@@ -47,6 +47,7 @@ namespace Dungeons
                 }
                 if (answer != "1" && answer != "2" && answer != "4") { game = false; break; }
 
+                // Для проверки нахождения выхода
                 bool exit = false;
 
                 if (game2)
@@ -131,7 +132,14 @@ namespace Dungeons
                         {
                             bool fif = fight.Fighting();
                             if (!fif) inGame = false;
-                            else { A[x + 1][y] = " "; A[x - 1][y] = " "; A[x][y + 1] = " "; A[x][y - 1] = " "; GameFunctions.View(A, x, y); }
+                            else 
+                            {
+                                if (x + 1 != height) { A[x + 1][y] = " "; }
+                                if (x - 1 != 0) { A[x - 1][y] = " "; }
+                                if (y + 1 != width) { A[x][y + 1] = " "; }
+                                if (y - 1 != 0) { A[x][y - 1] = " "; }
+                                GameFunctions.View(A, x, y); 
+                            }
                         }
                         else { A = iE; }
                     }
