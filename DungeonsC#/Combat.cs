@@ -42,24 +42,34 @@ namespace Dungeons
                     {
                         int damage = rnd.Next(0, 16);
                         hpBot -= damage;
+                        Console.WriteLine($"Нанесено урона тобой {damage}");
+                        Thread.Sleep(1000);
                     }
                     if (input == "2") blow = true;
                     if (input == "3")
                     {
                         int escape = rnd.Next(0, 30);
                         if (escape > 20) return true;
-                        else Console.WriteLine("Не удалось");
+                        else Console.WriteLine("Не удалось сбежать");
+                        Thread.Sleep(1000);
                     }
                 }
                 else
                 {
+                    Thread.Sleep(1);
                     int damage = rnd.Next(10, 36);
                     hpBot -= damage;
                     blow = false;
+                    Console.WriteLine($"Нанесено урона тобой {damage}");
+                    Thread.Sleep(1000);
                 }
 
+                Thread.Sleep(1000);
                 if (hpBot <= 0) break;
-                hpPlayer -= rnd.Next(0, 15);
+                int damageP = rnd.Next(0, 15);
+                hpPlayer -= damageP;
+                Console.WriteLine($"Нанесено урона тебе {damageP}");
+                Thread.Sleep(1000);
             }
 
             Console.Clear();
