@@ -23,7 +23,7 @@ namespace Dungeons
                 Console.WriteLine("3. Закрыть игру");
                 Console.WriteLine("4. Открыть свой сундук");
 
-                string answer = Console.ReadLine();
+                string? answer = Console.ReadLine();
 
                 if (answer == "2") { GameFunctions.FreeFile(); game2 = true; }
                 if (answer == "1")
@@ -103,22 +103,33 @@ namespace Dungeons
                         }
 
                         char input = GetAction();
+                        const char wKey = 'w';
+                        const char aKey = 'a';
+                        const char sKey = 's';
+                        const char dKey = 'd';
+                        const char eKey = 'e';
 
-                        if ((input == 'w' && A[x - 1][y] == "&") || (input == 'a' && A[x][y - 1] == "&") ||
-                            (input == 's' && A[x + 1][y] == "&") || (input == 'd' && A[x][y + 1] == "&"))
+                        if ((input == wKey && A[x - 1][y] == "&") || (input == aKey && A[x][y - 1] == "&") ||
+                            (input == sKey && A[x + 1][y] == "&") || (input == dKey && A[x][y + 1] == "&"))
                         {
-                            bool ff = fight.Fighting();
-                            if (!ff) inGame = false;
-                            else { A[x + 1][y] = " "; A[x - 1][y] = " "; A[x][y + 1] = " "; A[x][y - 1] = " "; GameFunctions.View(A, x, y); }
+                            string[][] AA = fight.StartFight(A, x, y);
+                            if (AA[0][0] != "false")
+                            {
+                                A = AA;
+                            } else
+                            {
+                                inGame = false;
+                                break;
+                            }
                         }
 
-                        if (input == 'w' && A[x - 1][y] == "E") { exit = true; inGame = false; }
-                        if (input == 'w' && A[x - 1][y] == " ") { A[x][y] = " "; x--; A[x][y] = "@"; }
-                        if (input == 'a' && A[x][y - 1] == " ") { A[x][y] = " "; y--; A[x][y] = "@"; }
-                        if (input == 's' && A[x + 1][y] == " ") { A[x][y] = " "; x++; A[x][y] = "@"; }
-                        if (input == 'd' && A[x][y + 1] == " ") { A[x][y] = " "; y++; A[x][y] = "@"; }
+                        if (input == wKey && A[x - 1][y] == "E") { exit = true; inGame = false; }
+                        if (input == wKey && A[x - 1][y] == " ") { A[x][y] = " "; x--; A[x][y] = "@"; }
+                        if (input == aKey && A[x][y - 1] == " ") { A[x][y] = " "; y--; A[x][y] = "@"; }
+                        if (input == sKey && A[x + 1][y] == " ") { A[x][y] = " "; x++; A[x][y] = "@"; }
+                        if (input == dKey && A[x][y + 1] == " ") { A[x][y] = " "; y++; A[x][y] = "@"; }
 
-                        if (input == 'e' && (A[x][y + 1] == "?" || A[x][y - 1] == "?" || A[x + 1][y] == "?" || A[x - 1][y] == "?"))
+                        if (input == eKey && (A[x][y + 1] == "?" || A[x][y - 1] == "?" || A[x + 1][y] == "?" || A[x - 1][y] == "?"))
                         {
                             if (A[x][y + 1] == "?") { A[x][y + 1] = " "; outputItems.Add(GameFunctions.RandomItems()); }
                             if (A[x][y - 1] == "?") { A[x][y - 1] = " "; outputItems.Add(GameFunctions.RandomItems()); }
@@ -130,15 +141,15 @@ namespace Dungeons
                         string[][] iE = EnemyLogic.IfEnemy(A, x, y);
                         if (iE.Length > 0 && iE[0].Length > 0 && iE[0][0] == "fight")
                         {
-                            bool fif = fight.Fighting();
-                            if (!fif) inGame = false;
-                            else 
+                            string[][] AA = fight.StartFight(A, x, y);
+                            if (AA[0][0] != "false")
                             {
-                                if (x + 1 != height) { A[x + 1][y] = " "; }
-                                if (x - 1 != 0) { A[x - 1][y] = " "; }
-                                if (y + 1 != width) { A[x][y + 1] = " "; }
-                                if (y - 1 != 0) { A[x][y - 1] = " "; }
-                                GameFunctions.View(A, x, y); 
+                                A = AA;
+                            }
+                            else
+                            {
+                                inGame = false;
+                                break;
                             }
                         }
                         else { A = iE; }

@@ -11,6 +11,36 @@ namespace Dungeons
         private static readonly Random rnd = new Random();
         private int hpPlayer = 100;
 
+        private void Battlefield()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (i == 0 || i == 8 || j == 0 || j == 8) Console.Write("# ");
+                    else if (i == 3 && j == 4) Console.Write("& ");
+                    else if (i == 5 && j == 4) Console.Write("@ ");
+                    else Console.Write("  ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public string[][] StartFight(string[][] A, int x, int y)
+        {
+            bool ff = Fighting();
+            if (!ff) return [["false"]];
+            else
+            {
+                if (x + 1 != A.Length - 1) { A[x + 1][y] = " "; }
+                if (x - 1 != 0) { A[x - 1][y] = " "; }
+                if (y + 1 != A[0].Length - 1) { A[x][y + 1] = " "; }
+                if (y - 1 != 0) { A[x][y - 1] = " "; }
+                GameFunctions.View(A, x, y);
+            }
+            return A;
+        }
+
         public bool Fighting()
         {
             int hpBot = 30;
@@ -19,23 +49,13 @@ namespace Dungeons
             while (hpPlayer > 0 && hpBot > 0)
             {
                 Console.Clear();
-                for (int i = 0; i < 9; i++)
-                {
-                    for (int j = 0; j < 9; j++)
-                    {
-                        if (i == 0 || i == 8 || j == 0 || j == 8) Console.Write("# ");
-                        else if (i == 3 && j == 4) Console.Write("& ");
-                        else if (i == 5 && j == 4) Console.Write("@ ");
-                        else Console.Write("  ");
-                    }
-                    Console.WriteLine();
-                }
+                Battlefield();
                 Console.WriteLine($"Здоровье игрока {hpPlayer}\nЗдоровье бота {hpBot}\n");
 
                 if (!blow)
                 {
                     Console.WriteLine("1. Быстрый удар\n2. Усиленный удар\n3. Бежать");
-                    string input = Console.ReadLine();
+                    string? input = Console.ReadLine();
                     while (input != "1" && input != "2" && input != "3") input = Console.ReadLine();
 
                     if (input == "1")
