@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace Dungeons
 {
@@ -20,142 +21,112 @@ namespace Dungeons
 
                 Console.WriteLine("1. Продолжить");
                 Console.WriteLine("2. Начать игру");
-                Console.WriteLine("3. Закрыть игру");
+                Console.WriteLine("3. Бесконечный режим");
                 Console.WriteLine("4. Открыть свой сундук");
+                Console.WriteLine("5. Торговец");
+                Console.WriteLine("6. Посмотреть рекорды в бесконечном режиме");
+                Console.WriteLine("7. Закрыть игру");
 
                 string? answer = Console.ReadLine();
+                const string continueGame = "1";
+                const string newGame = "2";
+                const string noEndGame = "3";
+                const string openChest = "4";
+                const string dealerInput = "5";
+                const string records = "6";
+                bool type = true;
+                InfinityMode inf = new InfinityMode();
 
-                if (answer == "2") { GameFunctions.FreeFile(); game2 = true; }
-                if (answer == "1")
+                switch (answer)
                 {
-                    inv.FreeChest();
-                    List<string> arrFromFile = GameFunctions.FromFile();
-                    for (int i = 0; i < arrFromFile.Count; i++)
-                    {
-                        inv.InChest(arrFromFile[i]);
-                    }
-                    game2 = true;
+                    case continueGame:
+                        inv.FreeChest();
+                        List<string> arrFromFile = GameFunctions.FromFile();
+                        for (int i = 0; i < arrFromFile.Count; i++)
+                        {
+                            inv.InChest(arrFromFile[i]);
+                        }
+                        game2 = true;
+                        break;
+                    case newGame:
+                        GameFunctions.FreeFile(); game2 = true;
+                        break;
+                    case openChest:
+                        List<string> arr1FromFile = GameFunctions.FromFile();
+                        Console.WriteLine("У вас в сундуке:");
+                        for (int i = 0; i < arr1FromFile.Count; i++)
+                        {
+                            Console.WriteLine(arr1FromFile[i]);
+                        }
+                        break;
+                    case noEndGame:
+                        type = false;
+                        game2 = true;
+                        break;
+                    case dealerInput:
+                        Dealer.Trade(inv);
+                        break;
+                    case records:
+                        List<string> RecordsOut = GameFunctions.FromRecordsFile();
+                        for (int i = 0; i < RecordsOut.Count; i++)
+                        {
+                            Console.WriteLine(RecordsOut[i]);
+                        }
+                        break;
+                    default:
+                        game = false; 
+                        break;
                 }
-                if (answer == "4")
-                {
-                    List<string> arrFromFile = GameFunctions.FromFile();
-                    Console.WriteLine("У вас в сундуке:");
-                    for (int i = 0; i < arrFromFile.Count; i++)
-                    {
-                        Console.WriteLine(arrFromFile[i]);
-                    }
-                }
-                if (answer != "1" && answer != "2" && answer != "4") { game = false; break; }
 
                 // Для проверки нахождения выхода
                 bool exit = false;
+                Combat fight = new Combat();
+                Inventory InvIG = new Inventory();
 
                 if (game2)
                 {
-                    char[] dungeon = EnemySpawner.GenerateDungeon(width, height, 30);
-                    Combat fight = new Combat();
-
-                    string[][] A = new string[height][];
-                    int x = height - 2;
-                    int y = (width / 2) - 1;
-
-                    for (int i = 0; i < height; i++)
+                    if (type)
                     {
-                        A[i] = new string[width];
-                        for (int j = 0; j < width; j++)
-                        {
-                            char pretrans = dungeon[i * width + j];
-                            A[i][j] = pretrans.ToString();
-                            if (pretrans == 'S') y = j;
-                        }
-                    }
-
-                    A[x][y] = "@";
-                    bool inGame = true;
-                    List<string> outputItems = new List<string>();
-                    int itemsCount = 0;
-
-                    while (inGame)
+                        exit = Gameplay.PlayingField(width, height, inv, fight, type);
+                    } else
                     {
-                        Console.Clear();
-                        GameFunctions.View(A, x, y);
+                        bool infExit = true;
 
-                        if (outputItems.Count > 0)
+                        while (infExit)
                         {
-                            for (int i = 0; i < outputItems.Count; i++)
+                            ConsoleUtils.ClearScreen();
+                            List<string> Items = GameFunctions.RandomItemInfMode();
+                            Console.WriteLine("Вы получили:");
+                            for (int i = 0; i < Items.Count; i++)
                             {
-                                Console.WriteLine(outputItems[i]);
+                                Console.WriteLine(Items[i]);
+                                InvIG.InBelt(Items[i]);
                             }
-                            itemsCount++;
+                            Thread.Sleep(2000);
+                            infExit = Gameplay.PlayingField(width, height, InvIG, fight, type);
+                            inf.LevelPlus();
                         }
-
-                        if (itemsCount == 3)
-                        {
-                            for (int i = 0; i < outputItems.Count; i++)
-                            {
-                                if (outputItems[i] != "Пустой")
-                                {
-                                    inv.InBag(outputItems[i]);
-                                }
-                            }
-                            itemsCount = 0;
-                            outputItems.Clear();
-                        }
-
-                        char input = GetAction();
-                        const char wKey = 'w';
-                        const char aKey = 'a';
-                        const char sKey = 's';
-                        const char dKey = 'd';
-                        const char eKey = 'e';
-
-                        if ((input == wKey && A[x - 1][y] == "&") || (input == aKey && A[x][y - 1] == "&") ||
-                            (input == sKey && A[x + 1][y] == "&") || (input == dKey && A[x][y + 1] == "&"))
-                        {
-                            string[][] AA = fight.StartFight(A, x, y);
-                            if (AA[0][0] != "false")
-                            {
-                                A = AA;
-                            } else
-                            {
-                                inGame = false;
-                                break;
-                            }
-                        }
-
-                        if (input == wKey && A[x - 1][y] == "E") { exit = true; inGame = false; }
-                        if (input == wKey && A[x - 1][y] == " ") { A[x][y] = " "; x--; A[x][y] = "@"; }
-                        if (input == aKey && A[x][y - 1] == " ") { A[x][y] = " "; y--; A[x][y] = "@"; }
-                        if (input == sKey && A[x + 1][y] == " ") { A[x][y] = " "; x++; A[x][y] = "@"; }
-                        if (input == dKey && A[x][y + 1] == " ") { A[x][y] = " "; y++; A[x][y] = "@"; }
-
-                        if (input == eKey && (A[x][y + 1] == "?" || A[x][y - 1] == "?" || A[x + 1][y] == "?" || A[x - 1][y] == "?"))
-                        {
-                            if (A[x][y + 1] == "?") { A[x][y + 1] = " "; outputItems.Add(GameFunctions.RandomItems()); }
-                            if (A[x][y - 1] == "?") { A[x][y - 1] = " "; outputItems.Add(GameFunctions.RandomItems()); }
-                            if (A[x + 1][y] == "?") { A[x + 1][y] = " "; outputItems.Add(GameFunctions.RandomItems()); }
-                            if (A[x - 1][y] == "?") { A[x - 1][y] = " "; outputItems.Add(GameFunctions.RandomItems()); }
-                            itemsCount = 0;
-                        }
-
-                        string[][] iE = EnemyLogic.IfEnemy(A, x, y);
-                        if (iE.Length > 0 && iE[0].Length > 0 && iE[0][0] == "fight")
-                        {
-                            string[][] AA = fight.StartFight(A, x, y);
-                            if (AA[0][0] != "false")
-                            {
-                                A = AA;
-                            }
-                            else
-                            {
-                                inGame = false;
-                                break;
-                            }
-                        }
-                        else { A = iE; }
                     }
 
                     Console.Clear();
+                    if (!type)
+                    {
+                        int L = inf.GetLevel();
+                        double LS = L * 10.0;
+                        double S = inf.Score(inv.OutBag());
+                        double Scores = LS + S;
+                        Console.WriteLine($"Вы получили {S} очков");
+                        Console.WriteLine($"И прошли {L} этажей, и получили {LS} очков");
+                        Console.WriteLine($"В целом {Scores} очков");
+                        Console.WriteLine("/n Введите имя: ");
+                        answer = Console.ReadLine();
+                        if (answer == null) 
+                        {
+                            answer = "noname";
+                        }
+                        GameFunctions.InRecordsFile(Scores, answer);
+                    }
+
                     if (exit)
                     {
                         Console.WriteLine("Вы дошли до конца");
@@ -177,14 +148,5 @@ namespace Dungeons
             }
         }
 
-        static char GetAction()
-        {
-            while (true)
-            {
-                ConsoleKeyInfo key = Console.ReadKey(true);
-                if (key.KeyChar == 'w' || key.KeyChar == 'a' || key.KeyChar == 's' || key.KeyChar == 'd' || key.KeyChar == 'e')
-                    return key.KeyChar;
-            }
-        }
     }
 }

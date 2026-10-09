@@ -25,7 +25,15 @@ namespace Dungeons
             return "Пустой";
         }
 
-        public static void FreeFile() => File.WriteAllText("PlayerChest.sosal", "");
+        public static List<string> Poisons = ["Зелье скрытности", "Зелье концентрации", "Зелье здоровья", "Зелье защиты", "Зелье силы"];
+        public static List<int> PoisonsPrice = [15, 2, 8, 5, 5];
+
+        public static void FreeFile()
+        {
+            File.WriteAllText("PlayerChest.sosal", "");
+            File.WriteAllText("PlayerBelt.sosal", "");
+            File.WriteAllText("PlayerMoney.sosal", "");
+        } 
 
         public static void InFile(List<string> arr)
         {
@@ -39,6 +47,36 @@ namespace Dungeons
             if (File.Exists("PlayerChest.sosal"))
                 return new List<string>(File.ReadAllText("PlayerChest.sosal").Split('\n'));
             return new List<string>();
+        }
+
+        public static void BeltInFile(List<string> arr, Double money)
+        {
+            List<string> arra = new List<string>(arr) { "" };
+            string text = string.Join("\n", arra);
+            File.AppendAllText("PlayerBelt.sosal", text);
+        }
+
+        public static List<string> BeltFromFile()
+        {
+            if (File.Exists("PlayerBelt.sosal"))
+                return new List<string>(File.ReadAllText("PlayerBelt.sosal").Split('\n'));
+            return new List<string>();
+        }
+
+        public static List<string> FromRecordsFile()
+        {
+            if (File.Exists("PlayerRecords.sosal"))
+                return new List<string>(File.ReadAllText("PlayerRecords.sosal").Split('\n'));
+            return new List<string>();
+        }
+
+        public static void InRecordsFile(double Record, string Name)
+        {
+            string RecordText = Record + " " + Name;
+            List<string> arra = FromRecordsFile();
+            arra.Append(RecordText);
+            string text = string.Join("\n", arra);
+            File.AppendAllText("PlayerRecords.sosal", text);
         }
 
         public static void View(string[][] A, int x, int y)
@@ -58,6 +96,24 @@ namespace Dungeons
                 for (int j = yl; j < yr; j++) Console.Write(A[i][j] + " ");
                 Console.WriteLine();
             }
+        }
+
+        public static List<string> RandomItemInfMode()
+        {
+            List<string> ReturnPoisons = new List<string>();
+
+            int Count = Program.Rnd.Next(1, 4);
+            for (int i = 0; i < Count; i++)
+            {
+                ReturnPoisons.Add(Poisons[Program.Rnd.Next(0, 5)]);
+            }
+
+            return ReturnPoisons;
+        }
+
+        public static int? IntOrNull(string input)
+        {
+            return int.TryParse(input, out int result) ? result : null;
         }
     }
 }
