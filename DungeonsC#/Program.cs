@@ -113,12 +113,12 @@ namespace Dungeons
                     {
                         int L = inf.GetLevel();
                         double LS = L * 10.0;
-                        double S = inf.Score(inv.OutBag());
+                        double S = inf.Score(InvIG.OutBag());
                         double Scores = LS + S;
                         Console.WriteLine($"Вы получили {S} очков");
                         Console.WriteLine($"И прошли {L} этажей, и получили {LS} очков");
                         Console.WriteLine($"В целом {Scores} очков");
-                        Console.WriteLine("/n Введите имя: ");
+                        Console.WriteLine("/nВведите имя: ");
                         answer = Console.ReadLine();
                         if (answer == null) 
                         {

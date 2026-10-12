@@ -21,7 +21,7 @@ namespace Dungeons
             A[b] = 'E';
             points[0] = b + width;
 
-            b = width * height - (Program.Rnd.Next(width - 2));
+            b = width * height - 1 - (Program.Rnd.Next(width - 2));
             A[b] = 'S';
 
             double chance = ((double)checkpoints / ((double)width * (double)height)) * 100;

@@ -18,7 +18,7 @@ namespace Dungeons
                 for (int j = 0; j < 9; j++)
                 {
                     if (i == 0 || i == 8 || j == 0 || j == 8) Console.Write("# ");
-                    else if (i == 3 && j == 4) Console.Write(Types.EnemyType);
+                    else if (i == 3 && j == 4) Console.Write($"{Types.EnemyType} ");
                     else if (i == 5 && j == 4) Console.Write("@ ");
                     else Console.Write("  ");
                 }
@@ -108,7 +108,7 @@ namespace Dungeons
                         string ItemFromBelt = InventoryInFight(Inv);
                         ConsoleUtils.ClearScreen();
 
-                        if (ItemFromBelt == GameFunctions.Poisons[0])
+                        if (ItemFromBelt == GameValues.Poisons[0])
                         {
                             Console.WriteLine("Побег");
                             if (type)
@@ -118,26 +118,26 @@ namespace Dungeons
                             Thread.Sleep(1500);
                             return true;
                         } else
-                        if (ItemFromBelt == GameFunctions.Poisons[1])
+                        if (ItemFromBelt == GameValues.Poisons[1])
                         {
                                 Console.WriteLine("Ты сконцентрировался");
                                 Thread.Sleep(1000);
                                 blow = true;
                                 continue;
                             } else
-                        if (ItemFromBelt == GameFunctions.Poisons[2])
+                        if (ItemFromBelt == GameValues.Poisons[2])
                         {
                             Console.WriteLine("Лечение");
                             Thread.Sleep(1000); 
                             hpPlayer += rnd.Next(15, 41);
                         } else
-                        if (ItemFromBelt == GameFunctions.Poisons[3])
+                        if (ItemFromBelt == GameValues.Poisons[3])
                         {
                             Console.WriteLine("Повышение защиты");
                             Thread.Sleep(1000);
                             maxDamageFromBot -= 8;
                         } else 
-                        if (ItemFromBelt == GameFunctions.Poisons[4])
+                        if (ItemFromBelt == GameValues.Poisons[4])
                         {
                             Console.WriteLine("Повышение защиты");
                             Thread.Sleep(1000);

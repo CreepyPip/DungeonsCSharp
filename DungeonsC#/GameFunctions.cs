@@ -7,6 +7,28 @@ using System.IO;
 
 namespace Dungeons
 {
+    public static class GameValues
+    {
+        public static Dictionary<string, double> ItemsScore = new Dictionary<string, double>
+        {
+            {"Ржавый меч", 1.0},
+            {"Ржавая броня", 2.0},
+            {"Маленький мешок с монетами", 3.0},
+            {"Средний мешок с монетами", 5.0},
+            {"Большой мешок с монетами", 8.0},
+            {"Почти новый меч", 10.0},
+            {"Почти новая броня", 13.0},
+            {"Золото", 20.0},
+            {"Чьи-то кости", 0.1},
+            {"Мусор", 0.2}
+        };
+
+
+        public static List<string> Poisons = ["Зелье скрытности", "Зелье концентрации", "Зелье здоровья", "Зелье защиты", "Зелье силы"];
+        public static List<int> PoisonsPrice = [15, 2, 8, 5, 5];
+
+    }
+
     public static class GameFunctions
     {
         public static string RandomItems()
@@ -24,10 +46,6 @@ namespace Dungeons
             if (item == 95) return "Золото";
             return "Пустой";
         }
-
-        public static List<string> Poisons = ["Зелье скрытности", "Зелье концентрации", "Зелье здоровья", "Зелье защиты", "Зелье силы"];
-        public static List<int> PoisonsPrice = [15, 2, 8, 5, 5];
-
         public static void FreeFile()
         {
             File.WriteAllText("PlayerChest.sosal", "");
@@ -66,7 +84,7 @@ namespace Dungeons
         public static List<string> FromRecordsFile()
         {
             if (File.Exists("PlayerRecords.sosal"))
-                return new List<string>(File.ReadAllText("PlayerRecords.sosal").Split('\n'));
+                return new List<string>(File.ReadAllLines("PlayerRecords.sosal"));
             return new List<string>();
         }
 
@@ -74,9 +92,9 @@ namespace Dungeons
         {
             string RecordText = Record + " " + Name;
             List<string> arra = FromRecordsFile();
-            arra.Append(RecordText);
+            arra.Add(RecordText);
             string text = string.Join("\n", arra);
-            File.AppendAllText("PlayerRecords.sosal", text);
+            File.WriteAllText("PlayerRecords.sosal", text);
         }
 
         public static void View(string[][] A, int x, int y)
@@ -105,7 +123,7 @@ namespace Dungeons
             int Count = Program.Rnd.Next(1, 4);
             for (int i = 0; i < Count; i++)
             {
-                ReturnPoisons.Add(Poisons[Program.Rnd.Next(0, 5)]);
+                ReturnPoisons.Add(GameValues.Poisons[Program.Rnd.Next(0, 5)]);
             }
 
             return ReturnPoisons;
