@@ -57,28 +57,63 @@ namespace Dungeons
         {
             List<string> arra = new List<string>(arr) { "" };
             string text = string.Join("\n", arra);
+            if (!File.Exists("PlayerChest.sosal"))
+            {
+                using (File.Create("PlayerChest.sosal")) { }
+            }
             File.AppendAllText("PlayerChest.sosal", text);
         }
 
         public static List<string> FromFile()
         {
             if (File.Exists("PlayerChest.sosal"))
-                return new List<string>(File.ReadAllText("PlayerChest.sosal").Split('\n'));
+            {
+                string fullText = File.ReadAllText("PlayerChest.sosal");
+
+                List<string> arr1 = new List<string>(
+                    fullText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries));
+                return arr1;
+            } else
+            {
+                using (File.Create("PlayerChest.sosal")) { }
+            }
+
             return new List<string>();
         }
 
-        public static void BeltInFile(List<string> arr, Double money)
+        public static void BeltInFile(List<string> arr)
         {
-            List<string> arra = new List<string>(arr) { "" };
-            string text = string.Join("\n", arra);
-            File.AppendAllText("PlayerBelt.sosal", text);
+            string text = string.Join("\n", arr);
+            File.WriteAllText("PlayerBelt.sosal", text);
         }
 
         public static List<string> BeltFromFile()
         {
             if (File.Exists("PlayerBelt.sosal"))
-                return new List<string>(File.ReadAllText("PlayerBelt.sosal").Split('\n'));
+            {
+                string fullText = File.ReadAllText("PlayerBelt.sosal");
+                return new List<string>(
+                    fullText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+                );
+            }
             return new List<string>();
+        }
+
+        public static void MoneyInFile(double money)
+        {
+            string text = $"{money*10}";
+            File.WriteAllText("PlayerMoney.sosal", text);
+        }
+
+        public static double MoneyFromFile()
+        {
+            if (File.Exists("PlayerMoney.sosal"))
+            {
+                string text = File.ReadAllText("PlayerMoney.sosal");
+                double money = (GameFunctions.IntOrNull(text) ?? 0.0)/10.0;
+                return money;
+            }
+            return 0.0;
         }
 
         public static List<string> FromRecordsFile()

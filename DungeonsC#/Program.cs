@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 
 namespace Dungeons
 {
@@ -18,6 +19,18 @@ namespace Dungeons
             while (game)
             {
                 Inventory inv = new Inventory();
+                List<string> Chest = GameFunctions.FromFile();
+                List<string> Belt = GameFunctions.BeltFromFile();
+                double Money = GameFunctions.MoneyFromFile();
+                for (int i = 0; i < Chest.Count; i++)
+                {
+                    inv.InChest(Chest[i]);
+                }
+                for (int i = 0; i < Belt.Count; i++)
+                {
+                    inv.InBelt(Belt[i]);
+                }
+                inv.AddMoney(Money);
 
                 Console.WriteLine("1. Продолжить");
                 Console.WriteLine("2. Начать игру");
@@ -49,7 +62,11 @@ namespace Dungeons
                         game2 = true;
                         break;
                     case newGame:
-                        GameFunctions.FreeFile(); game2 = true;
+                        GameFunctions.FreeFile(); 
+                        inv.FreeBelt();
+                        inv.FreeChest();
+                        inv.PutMoney(inv.GetMoney());
+                        game2 = true;
                         break;
                     case openChest:
                         List<string> arr1FromFile = GameFunctions.FromFile();

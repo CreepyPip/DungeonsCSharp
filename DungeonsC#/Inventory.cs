@@ -23,6 +23,7 @@ namespace Dungeons
         public List<string> OutChest() => new List<string>(Chest);
         public List<string> OutBelt() => new List<string>(Belt);
         public string FromBelt(int index) => Belt[index];
+        public string FromChest(int index) => Chest[index];
         public void DeleteFromBelt(int index) => Belt.RemoveAt(index);
         public void DeleteFromChest(int index) => Chest.RemoveAt(index);
         public void AddMoney(Double New_Money) => Money += New_Money;
