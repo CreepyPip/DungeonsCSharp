@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Dungeons
 {
@@ -15,6 +16,10 @@ namespace Dungeons
             int width = 100;
             bool game = true;
             bool game2 = false;
+
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;
+            ConsoleUtils.ConsoleColor();
 
             while (game)
             {
