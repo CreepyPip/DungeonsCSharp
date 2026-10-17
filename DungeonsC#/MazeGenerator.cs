@@ -10,6 +10,7 @@ namespace Dungeons
     {
         public static char[] GenerateMaze(int width, int height, int density)
         {
+            density = (int)((double)density * 100.0/(double)width);
             char[] A = new char[width * height];
             for (int i = 0; i < height * width; i++) A[i] = '#';
 

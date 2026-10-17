@@ -39,11 +39,6 @@ namespace Dungeons
 
                         Input = Console.ReadLine();
                         int? parsedInput = GameFunctions.IntOrNull(Input);
-                        while (parsedInput == null || parsedInput > Chest.Count + 1 || parsedInput < 1)
-                        {
-                            Input = Console.ReadLine();
-                            parsedInput = GameFunctions.IntOrNull(Input);
-                        }
                         int IntInput = parsedInput ?? 0;
                         if (IntInput >= 1 && IntInput <= Chest.Count)
                         {
@@ -74,15 +69,9 @@ namespace Dungeons
                         Console.WriteLine($"{GameValues.Poisons.Count + 1}. Выйти");
 
                         Input = Console.ReadLine();
-                        int? parsedInput = GameFunctions.IntOrNull(Input);
-                        while (parsedInput == null || parsedInput > Chest.Count + 1 || parsedInput < 1)
-                        {
-                            Input = Console.ReadLine();
-                            parsedInput = GameFunctions.IntOrNull(Input);
-                        }
-                        int IntInput = parsedInput ?? 0;
+                        int IntInput = GameFunctions.IntOrNull(Input) ?? 0;
 
-                        if (IntInput <= GameValues.Poisons.Count)
+                        if (IntInput >= 1 && IntInput <= GameValues.Poisons.Count)
                         {
                             if (Money >= GameValues.PoisonsPrice[IntInput-1])
                             {

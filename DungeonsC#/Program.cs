@@ -17,9 +17,12 @@ namespace Dungeons
             bool game = true;
             bool game2 = false;
 
-            Console.OutputEncoding = Encoding.UTF8;
-            Console.InputEncoding = Encoding.UTF8;
-            ConsoleUtils.ConsoleColor();
+            if (OperatingSystem.IsWindows())
+            {
+                Console.OutputEncoding = Encoding.UTF8;
+                Console.InputEncoding = Encoding.UTF8;
+                ConsoleUtils.ConsoleColor();
+            }
 
             while (game)
             {
@@ -27,6 +30,7 @@ namespace Dungeons
                 List<string> Chest = GameFunctions.FromFile();
                 List<string> Belt = GameFunctions.BeltFromFile();
                 double Money = GameFunctions.MoneyFromFile();
+                int floor = GameFunctions.FloorFromFile();
                 for (int i = 0; i < Chest.Count; i++)
                 {
                     inv.InChest(Chest[i]);
@@ -36,6 +40,8 @@ namespace Dungeons
                     inv.InBelt(Belt[i]);
                 }
                 inv.AddMoney(Money);
+
+                if (floor > 7) {floor = 1;}
 
                 Console.WriteLine("1. Продолжить");
                 Console.WriteLine("2. Начать игру");
@@ -71,6 +77,7 @@ namespace Dungeons
                         inv.FreeBelt();
                         inv.FreeChest();
                         inv.PutMoney(inv.GetMoney());
+                        floor = 1;
                         game2 = true;
                         break;
                     case openChest:
@@ -109,6 +116,11 @@ namespace Dungeons
                 {
                     if (type)
                     {
+                        ConsoleUtils.ClearScreen();
+                        Console.WriteLine($"Этаж {floor}");
+                        Thread.Sleep(1500);
+                        height = (int)(0.25 * (floor - 1) * height) + height;
+                        width = (int)(0.25 * (floor - 1) * width) + width;
                         exit = Gameplay.PlayingField(width, height, inv, fight, type);
                     } else
                     {
@@ -163,7 +175,17 @@ namespace Dungeons
                                 Console.WriteLine(arrBag[i]);
                             }
                         }
-                    }
+                        Thread.Sleep(1500);
+                        if (floor == 7)
+                        {
+                            Console.WriteLine("Вы прошли подземелье");
+                            Thread.Sleep(2500);
+                            floor = 1;
+                            break;
+                        }
+                        floor += 1;
+                    } else floor = 1;
+                    GameFunctions.FloorInFile(floor);
                     inv.FreeBag();
                     game2 = false;
                 }

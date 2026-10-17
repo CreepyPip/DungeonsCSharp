@@ -19,7 +19,7 @@ namespace Dungeons
             return new int[0];
         }
 
-        public static string[][] IfEnemy(string[][] A, int x, int y)
+        public static string[][] IfEnemy(string[][] A, int x, int y, int width, int height)
         {
             string[][] B = new string[A.Length][];
             for (int i = 0; i < A.Length; i++) B[i] = (string[])A[i].Clone();
@@ -30,9 +30,9 @@ namespace Dungeons
             int yr = y + 10;
 
             while (xh < 0) xh++;
-            while (xl > 200) xl--;
+            while (xl > height) xl--;
             while (yl < 0) yl++;
-            while (yr > 100) yr--;
+            while (yr > width) yr--;
 
             for (int i = xh; i < xl; i++)
             {

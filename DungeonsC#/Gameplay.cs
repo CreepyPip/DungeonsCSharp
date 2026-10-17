@@ -55,7 +55,7 @@ namespace Dungeons
             while (inGame)
             {
                 Console.Clear();
-                GameFunctions.View(A, x, y);
+                GameFunctions.View(A, x, y, width, height);
 
                 if (outputItems.Count > 0)
                 {
@@ -89,7 +89,7 @@ namespace Dungeons
                 if ((input == wKey && A[x - 1][y] == Types.EnemyType) || (input == aKey && A[x][y - 1] == Types.EnemyType) ||
                     (input == sKey && A[x + 1][y] == Types.EnemyType) || (input == dKey && A[x][y + 1] == Types.EnemyType))
                 {
-                    string[][] AA = fight.StartFight(A, x, y, inv, type);
+                    string[][] AA = fight.StartFight(A, x, y, inv, type, width, height);
                     if (AA[0][0] != "false")
                     {
                         A = AA;
@@ -118,10 +118,10 @@ namespace Dungeons
                     itemsCount = 0;
                 }
 
-                string[][] iE = EnemyLogic.IfEnemy(A, x, y);
+                string[][] iE = EnemyLogic.IfEnemy(A, x, y, width, height);
                 if (iE.Length > 0 && iE[0].Length > 0 && iE[0][0] == "fight")
                 {
-                    string[][] AA = fight.StartFight(A, x, y, inv, type);
+                    string[][] AA = fight.StartFight(A, x, y, inv, type, width, height);
                     if (AA[0][0] != "false")
                     {
                         A = AA;

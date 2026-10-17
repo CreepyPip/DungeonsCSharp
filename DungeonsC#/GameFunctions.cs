@@ -25,12 +25,25 @@ namespace Dungeons
 
 
         public static List<string> Poisons = ["Зелье скрытности", "Зелье концентрации", "Зелье здоровья", "Зелье защиты", "Зелье силы"];
-        public static List<int> PoisonsPrice = [15, 2, 8, 5, 5];
+        public static List<int> PoisonsPrice = [45, 15, 30, 22, 18];
 
     }
 
     public static class GameFunctions
     {
+        private static string URL()
+        {
+            string basePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string gameDir = Path.Combine(basePath, "Dungeons");
+
+            if (!Directory.Exists(gameDir))
+            {
+                Directory.CreateDirectory(gameDir);
+            }
+
+            return gameDir;
+        }
+
         public static string RandomItems()
         {
             int item = Program.Rnd.Next(0, 100);
@@ -48,34 +61,35 @@ namespace Dungeons
         }
         public static void FreeFile()
         {
-            File.WriteAllText("PlayerChest.sosal", "");
-            File.WriteAllText("PlayerBelt.sosal", "");
-            File.WriteAllText("PlayerMoney.sosal", "");
+            File.WriteAllText($"{URL()}/PlayerChest.sosal", "");
+            File.WriteAllText($"{URL()}/PlayerBelt.sosal", "");
+            File.WriteAllText($"{URL()}/PlayerMoney.sosal", "");
+            File.WriteAllText($"{URL()}/PlayerFloor.sosal", "");
         } 
 
         public static void InFile(List<string> arr)
         {
             List<string> arra = new List<string>(arr) { "" };
             string text = string.Join("\n", arra);
-            if (!File.Exists("PlayerChest.sosal"))
+            if (!File.Exists($"{URL()}/PlayerChest.sosal"))
             {
-                using (File.Create("PlayerChest.sosal")) { }
+                using (File.Create($"{URL()}/PlayerChest.sosal")) { }
             }
-            File.AppendAllText("PlayerChest.sosal", text);
+            File.AppendAllText($"{URL()}/PlayerChest.sosal", text);
         }
 
         public static List<string> FromFile()
         {
-            if (File.Exists("PlayerChest.sosal"))
+            if (File.Exists($"{URL()}/PlayerChest.sosal"))
             {
-                string fullText = File.ReadAllText("PlayerChest.sosal");
+                string fullText = File.ReadAllText($"{URL()}/PlayerChest.sosal");
 
                 List<string> arr1 = new List<string>(
                     fullText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries));
                 return arr1;
             } else
             {
-                using (File.Create("PlayerChest.sosal")) { }
+                using (File.Create($"{URL()}/PlayerChest.sosal")) { }
             }
 
             return new List<string>();
@@ -84,14 +98,14 @@ namespace Dungeons
         public static void BeltInFile(List<string> arr)
         {
             string text = string.Join("\n", arr);
-            File.WriteAllText("PlayerBelt.sosal", text);
+            File.WriteAllText($"{URL()}/PlayerBelt.sosal", text);
         }
 
         public static List<string> BeltFromFile()
         {
-            if (File.Exists("PlayerBelt.sosal"))
+            if (File.Exists($"{URL()}/PlayerBelt.sosal"))
             {
-                string fullText = File.ReadAllText("PlayerBelt.sosal");
+                string fullText = File.ReadAllText($"{URL()}/PlayerBelt.sosal");
                 return new List<string>(
                     fullText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
                 );
@@ -102,24 +116,42 @@ namespace Dungeons
         public static void MoneyInFile(double money)
         {
             string text = $"{money*10}";
-            File.WriteAllText("PlayerMoney.sosal", text);
+            File.WriteAllText($"{URL()}/PlayerMoney.sosal", text);
         }
 
         public static double MoneyFromFile()
         {
-            if (File.Exists("PlayerMoney.sosal"))
+            if (File.Exists($"{URL()}/PlayerMoney.sosal"))
             {
-                string text = File.ReadAllText("PlayerMoney.sosal");
+                string text = File.ReadAllText($"{URL()}/PlayerMoney.sosal");
                 double money = (GameFunctions.IntOrNull(text) ?? 0.0)/10.0;
                 return money;
             }
             return 0.0;
         }
 
+        public static void FloorInFile(int floor)
+        {
+            string text = $"{floor}";
+            File.WriteAllText($"{URL()}/PlayerFloor.sosal", text);
+        }
+
+        public static int FloorFromFile()
+        {
+
+            if (File.Exists($"{URL()}/PlayerFloor.sosal"))
+            {
+                string text = File.ReadAllText($"{URL()}/PlayerFloor.sosal");
+                int floor = GameFunctions.IntOrNull(text) ?? 1;
+                return floor;
+            } else File.WriteAllText($"{URL()}/PlayerFloor.sosal", "1");
+            return 1;
+        }
+
         public static List<string> FromRecordsFile()
         {
-            if (File.Exists("PlayerRecords.sosal"))
-                return new List<string>(File.ReadAllLines("PlayerRecords.sosal"));
+            if (File.Exists($"{URL()}/PlayerRecordsSharp.sosal"))
+                return new List<string>(File.ReadAllLines($"{URL()}/PlayerRecordsSharp.sosal"));
             return new List<string>();
         }
 
@@ -129,10 +161,10 @@ namespace Dungeons
             List<string> arra = FromRecordsFile();
             arra.Add(RecordText);
             string text = string.Join("\n", arra);
-            File.WriteAllText("PlayerRecords.sosal", text);
+            File.WriteAllText($"{URL()}/PlayerRecordsSharp.sosal", text);
         }
 
-        public static void View(string[][] A, int x, int y)
+        public static void View(string[][] A, int x, int y, int width, int height)
         {
             int xh = x - 10;
             int xl = x + 10;
@@ -140,9 +172,9 @@ namespace Dungeons
             int yr = y + 10;
 
             while (xh < 0) xh++;
-            while (xl > 200) xl--;
+            while (xl > height) xl--;
             while (yl < 0) yl++;
-            while (yr > 100) yr--;
+            while (yr > width) yr--;
 
             for (int i = xh; i < xl; i++)
             {

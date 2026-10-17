@@ -26,7 +26,7 @@ namespace Dungeons
             }
         }
 
-        public string[][] StartFight(string[][] A, int x, int y, Inventory Inv, bool type)
+        public string[][] StartFight(string[][] A, int x, int y, Inventory Inv, bool type, int width, int height)
         {
             bool ff = Fighting(Inv, type);
             if (!ff) return [["false"]];
@@ -36,7 +36,7 @@ namespace Dungeons
                 if (x - 1 != 0) { A[x - 1][y] = " "; }
                 if (y + 1 != A[0].Length - 1) { A[x][y + 1] = " "; }
                 if (y - 1 != 0) { A[x][y - 1] = " "; }
-                GameFunctions.View(A, x, y);
+                GameFunctions.View(A, x, y, width, height);
             }
             return A;
         }
