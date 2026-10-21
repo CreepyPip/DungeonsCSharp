@@ -144,8 +144,11 @@ namespace Dungeons
                 string text = File.ReadAllText($"{URL()}/PlayerFloor.sosal");
                 int floor = GameFunctions.IntOrNull(text) ?? 1;
                 return floor;
-            } else File.WriteAllText($"{URL()}/PlayerFloor.sosal", "1");
+            } else 
+            {
+            File.WriteAllText($"{URL()}/PlayerFloor.sosal", "1");
             return 1;
+            }
         }
 
         public static List<string> FromRecordsFile()

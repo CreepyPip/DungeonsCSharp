@@ -181,8 +181,7 @@ namespace Dungeons
                         {
                             Console.WriteLine("Вы прошли подземелье");
                             Thread.Sleep(2500);
-                            floor = 1;
-                            break;
+                            floor = 0;
                         }
                         floor += 1;
                     } else floor = 1;
