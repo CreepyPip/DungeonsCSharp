@@ -52,21 +52,22 @@ namespace Dungeons
             {
                 for (int i = 0; i < Belt.Count; i++)
                 {
-                    Console.WriteLine($"{i+1}. {Belt[i]}");
+                    Console.WriteLine($"{i + 1}. {Belt[i]}");
                 }
-            } else return "";
+            }
+            else return "";
             Console.WriteLine($"{Belt.Count + 1}. Выход из инвентаря");
 
             string? Input = Console.ReadLine();
 
-            while (GameFunctions.IntOrNull(Input) == null && 
+            while (GameFunctions.IntOrNull(Input) == null &&
             GameFunctions.IntOrNull(Input) <= 0 && GameFunctions.IntOrNull(Input) <= Belt.Count)
             {
                 Input = Console.ReadLine();
             }
 
             int IntInput = GameFunctions.IntOrNull(Input) ?? Belt.Count + 1;
-            if (IntInput != Belt.Count+1)
+            if (IntInput != Belt.Count + 1)
             {
                 ReturnText = Belt[IntInput - 1];
                 Inv.DeleteFromBelt(IntInput - 1);
@@ -119,37 +120,42 @@ namespace Dungeons
                             Console.WriteLine("Побег");
                             if (type)
                             {
-                                
+
                             }
                             Thread.Sleep(1500);
                             return true;
-                        } else
+                        }
+                        else
                         if (ItemFromBelt == GameValues.Poisons[1])
                         {
-                                Console.WriteLine("Ты сконцентрировался");
-                                Thread.Sleep(1000);
-                                blow = true;
-                                continue;
-                            } else
+                            Console.WriteLine("Ты сконцентрировался");
+                            Thread.Sleep(1000);
+                            blow = true;
+                            continue;
+                        }
+                        else
                         if (ItemFromBelt == GameValues.Poisons[2])
                         {
                             Console.WriteLine("Лечение");
-                            Thread.Sleep(1000); 
+                            Thread.Sleep(1000);
                             hpPlayer += rnd.Next(15, 41);
-                        } else
+                        }
+                        else
                         if (ItemFromBelt == GameValues.Poisons[3])
                         {
                             Console.WriteLine("Повышение защиты");
                             Thread.Sleep(1000);
                             maxDamageFromBot -= 8;
-                        } else 
+                        }
+                        else
                         if (ItemFromBelt == GameValues.Poisons[4])
                         {
                             Console.WriteLine("Повышение защиты");
                             Thread.Sleep(1000);
                             minDamage += 5;
                             maxDamage += 10;
-                        } else continue;
+                        }
+                        else continue;
                     }
                     if (input == "4")
                     {

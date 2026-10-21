@@ -42,7 +42,7 @@ namespace Dungeons
                 }
                 inv.AddMoney(Money);
 
-                if (floor > 7) {floor = 1;}
+                if (floor > 7) { floor = 1; }
 
                 Console.WriteLine("1. Продолжить");
                 Console.WriteLine("2. Начать игру");
@@ -74,7 +74,7 @@ namespace Dungeons
                         game2 = true;
                         break;
                     case newGame:
-                        GameFunctions.FreeFile(); 
+                        GameFunctions.FreeFile();
                         inv.FreeBelt();
                         inv.FreeChest();
                         inv.PutMoney(inv.GetMoney());
@@ -104,7 +104,7 @@ namespace Dungeons
                         }
                         break;
                     default:
-                        game = false; 
+                        game = false;
                         break;
                 }
 
@@ -123,7 +123,8 @@ namespace Dungeons
                         height = (int)(0.25 * (floor - 1) * height) + height;
                         width = (int)(0.25 * (floor - 1) * width) + width;
                         exit = Gameplay.PlayingField(width, height, inv, fight, type);
-                    } else
+                    }
+                    else
                     {
                         bool infExit = true;
 
@@ -153,9 +154,9 @@ namespace Dungeons
                         Console.WriteLine($"Вы получили {S} очков");
                         Console.WriteLine($"И прошли {L} этажей, и получили {LS} очков");
                         Console.WriteLine($"В целом {Scores} очков");
-                        Console.WriteLine("/nВведите имя: ");
+                        Console.WriteLine("Введите имя: ");
                         answer = Console.ReadLine();
-                        if (answer == null) 
+                        if (answer == null)
                         {
                             answer = "noname";
                         }
@@ -184,8 +185,13 @@ namespace Dungeons
                             floor = 0;
                         }
                         floor += 1;
-                    } else floor = 1;
-                    GameFunctions.FloorInFile(floor);
+                        GameFunctions.FloorInFile(floor);
+                    }
+                    else 
+                    {
+                        GameFunctions.FloorInFile(1);
+                    }
+                    
                     inv.FreeBag();
                     game2 = false;
                 }

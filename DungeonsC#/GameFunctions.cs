@@ -65,7 +65,7 @@ namespace Dungeons
             File.WriteAllText($"{URL()}/PlayerBelt.sosal", "");
             File.WriteAllText($"{URL()}/PlayerMoney.sosal", "");
             File.WriteAllText($"{URL()}/PlayerFloor.sosal", "");
-        } 
+        }
 
         public static void InFile(List<string> arr)
         {
@@ -87,7 +87,8 @@ namespace Dungeons
                 List<string> arr1 = new List<string>(
                     fullText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries));
                 return arr1;
-            } else
+            }
+            else
             {
                 using (File.Create($"{URL()}/PlayerChest.sosal")) { }
             }
@@ -115,7 +116,7 @@ namespace Dungeons
 
         public static void MoneyInFile(double money)
         {
-            string text = $"{money*10}";
+            string text = $"{Math.Round(money * 10)}";
             File.WriteAllText($"{URL()}/PlayerMoney.sosal", text);
         }
 
@@ -124,10 +125,9 @@ namespace Dungeons
             if (File.Exists($"{URL()}/PlayerMoney.sosal"))
             {
                 string text = File.ReadAllText($"{URL()}/PlayerMoney.sosal");
-                double money = (GameFunctions.IntOrNull(text) ?? 0.0)/10.0;
+                double money = (GameFunctions.IntOrNull(text) ?? 0.0) / 10.0;
                 return money;
-            }
-            return 0.0;
+            } else return 0.0;
         }
 
         public static void FloorInFile(int floor)
@@ -144,10 +144,11 @@ namespace Dungeons
                 string text = File.ReadAllText($"{URL()}/PlayerFloor.sosal");
                 int floor = GameFunctions.IntOrNull(text) ?? 1;
                 return floor;
-            } else 
+            }
+            else
             {
-            File.WriteAllText($"{URL()}/PlayerFloor.sosal", "1");
-            return 1;
+                File.WriteAllText($"{URL()}/PlayerFloor.sosal", "1");
+                return 1;
             }
         }
 

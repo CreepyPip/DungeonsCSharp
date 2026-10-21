@@ -107,7 +107,8 @@ namespace Dungeons
                         inGame = false;
                         break;
                     }
-                } else
+                }
+                else
                 if ((input == wKey && A[x - 1][y] == Types.EnemyType) || (input == aKey && A[x][y - 1] == Types.EnemyType) ||
                     (input == sKey && A[x + 1][y] == Types.EnemyType) || (input == dKey && A[x][y + 1] == Types.EnemyType))
                 {
@@ -129,8 +130,8 @@ namespace Dungeons
                 if (input == sKey && A[x + 1][y] == " ") { A[x][y] = " "; x++; A[x][y] = "@"; }
                 if (input == dKey && A[x][y + 1] == " ") { A[x][y] = " "; y++; A[x][y] = "@"; }
 
-                if (input == eKey && (A[x][y + 1] == Types.ChestType || 
-                A[x][y - 1] == Types.ChestType || A[x + 1][y] == Types.ChestType || 
+                if (input == eKey && (A[x][y + 1] == Types.ChestType ||
+                A[x][y - 1] == Types.ChestType || A[x + 1][y] == Types.ChestType ||
                 A[x - 1][y] == Types.ChestType))
                 {
                     if (A[x][y + 1] == Types.ChestType) { A[x][y + 1] = " "; outputItems.Add(GameFunctions.RandomItems()); }
@@ -156,10 +157,10 @@ namespace Dungeons
                 }
                 else { A = iE; }
 
-        
+
+            }
+            return false;
         }
-        return false;
-    }
 
         static char GetAction()
         {

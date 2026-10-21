@@ -20,7 +20,7 @@ namespace Dungeons
             const string Exit = "3";
 
             string? Input = Console.ReadLine();
-            while (Input != Sell && Input != Buy && Input!= Exit)
+            while (Input != Sell && Input != Buy && Input != Exit)
             {
                 Input = Console.ReadLine();
             }
@@ -33,9 +33,9 @@ namespace Dungeons
                         ConsoleUtils.ClearScreen();
                         for (int i = 0; i < Chest.Count; i++)
                         {
-                            Console.WriteLine($"{i+1}. {Chest[i]}");
+                            Console.WriteLine($"{i + 1}. {Chest[i]}");
                         }
-                        Console.WriteLine($"{Chest.Count+1}. Выйти");
+                        Console.WriteLine($"{Chest.Count + 1}. Выйти");
 
                         Input = Console.ReadLine();
                         int? parsedInput = GameFunctions.IntOrNull(Input);
@@ -56,7 +56,8 @@ namespace Dungeons
                             GameFunctions.InFile(Chest);
                             GameFunctions.BeltInFile(Belt);
                             GameFunctions.MoneyInFile(Money);
-                        } else return;
+                        }
+                        else return;
                     }
                 case (Buy):
                     while (true)
@@ -64,7 +65,7 @@ namespace Dungeons
                         ConsoleUtils.ClearScreen();
                         for (int i = 0; i < GameValues.Poisons.Count; i++)
                         {
-                            Console.WriteLine($"{i+1}.{GameValues.Poisons[i]}: {GameValues.PoisonsPrice[i]}");
+                            Console.WriteLine($"{i + 1}.{GameValues.Poisons[i]}: {GameValues.PoisonsPrice[i]}");
                         }
                         Console.WriteLine($"{GameValues.Poisons.Count + 1}. Выйти");
 
@@ -73,7 +74,7 @@ namespace Dungeons
 
                         if (IntInput >= 1 && IntInput <= GameValues.Poisons.Count)
                         {
-                            if (Money >= GameValues.PoisonsPrice[IntInput-1])
+                            if (Money >= GameValues.PoisonsPrice[IntInput - 1])
                             {
                                 GameFunctions.FreeFile();
                                 inv.PutMoney(GameValues.PoisonsPrice[IntInput - 1]);
@@ -85,6 +86,11 @@ namespace Dungeons
                                 GameFunctions.InFile(Chest);
                                 GameFunctions.BeltInFile(Belt);
                                 GameFunctions.MoneyInFile(Money);
+                            }
+                            else 
+                            {
+                                Console.WriteLine("Не хватает денег");
+                                Thread.Sleep(1500);
                             }
                         }
                         else return;
