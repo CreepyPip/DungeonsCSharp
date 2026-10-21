@@ -8,9 +8,11 @@ namespace Dungeons
     {
         public const string Reset = "\x1b[0m";
         public const string Red = "\x1b[31m";
+        public const string Scarlet = "\x1b[91m";
         public const string Green = "\x1b[32m";
 
         public static string EnemyType = $"{Red}&{Reset}";
+        public static string BossType = $"{Scarlet}&{Reset}";
         public static string ChestType = $"{Green}?{Reset}";
     }
 
@@ -31,10 +33,16 @@ namespace Dungeons
                 A[i] = new string[width];
                 for (int j = 0; j < width; j++)
                 {
-                    if (dungeon[i * width + j] == '&')
+
+                    if (dungeon[i * width + j] == '$')
+                    {
+                        A[i][j] = Types.BossType;
+                    }
+                    else if(dungeon[i * width + j] == '&')
                     {
                         A[i][j] = Types.EnemyType;
-                    } else if (dungeon[i * width + j] == '?')
+                    } 
+                    else if (dungeon[i * width + j] == '?')
                     {
                         A[i][j] = Types.ChestType;
                     }
@@ -86,10 +94,24 @@ namespace Dungeons
                 const char dKey = 'd';
                 const char eKey = 'e';
 
+                if ((input == wKey && A[x - 1][y] == Types.BossType) || (input == aKey && A[x][y - 1] == Types.BossType) ||
+                    (input == sKey && A[x + 1][y] == Types.BossType) || (input == dKey && A[x][y + 1] == Types.BossType))
+                {
+                    string[][] AA = fight.StartFight(A, x, y, inv, type, width, height, true);
+                    if (AA[0][0] != "false")
+                    {
+                        A = AA;
+                    }
+                    else
+                    {
+                        inGame = false;
+                        break;
+                    }
+                } else
                 if ((input == wKey && A[x - 1][y] == Types.EnemyType) || (input == aKey && A[x][y - 1] == Types.EnemyType) ||
                     (input == sKey && A[x + 1][y] == Types.EnemyType) || (input == dKey && A[x][y + 1] == Types.EnemyType))
                 {
-                    string[][] AA = fight.StartFight(A, x, y, inv, type, width, height);
+                    string[][] AA = fight.StartFight(A, x, y, inv, type, width, height, false);
                     if (AA[0][0] != "false")
                     {
                         A = AA;
@@ -121,7 +143,7 @@ namespace Dungeons
                 string[][] iE = EnemyLogic.IfEnemy(A, x, y, width, height);
                 if (iE.Length > 0 && iE[0].Length > 0 && iE[0][0] == "fight")
                 {
-                    string[][] AA = fight.StartFight(A, x, y, inv, type, width, height);
+                    string[][] AA = fight.StartFight(A, x, y, inv, type, width, height, false);
                     if (AA[0][0] != "false")
                     {
                         A = AA;

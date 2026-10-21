@@ -26,9 +26,11 @@ namespace Dungeons
             }
         }
 
-        public string[][] StartFight(string[][] A, int x, int y, Inventory Inv, bool type, int width, int height)
+        public string[][] StartFight(string[][] A, int x, int y, Inventory Inv, bool type, int width, int height, bool Boss)
         {
-            bool ff = Fighting(Inv, type);
+            int hpBot = 30;
+            if (Boss) hpBot = 80;
+            bool ff = Fighting(Inv, type, hpBot);
             if (!ff) return [["false"]];
             else
             {
@@ -73,14 +75,18 @@ namespace Dungeons
             return ReturnText;
         }
 
-        public bool Fighting(Inventory Inv,bool type)
+        public bool Fighting(Inventory Inv,bool type, int hpBot)
         {
-            int hpBot = 30;
             bool blow = false;
             int minDamageFromBot = 0;
             int maxDamageFromBot = 15;
             int minDamage = 0;
             int maxDamage = 15;
+            if (hpBot == 80)
+            {
+                minDamageFromBot = 5;
+                maxDamageFromBot = 30;
+            }
 
             while (hpPlayer > 0 && hpBot > 0)
             {

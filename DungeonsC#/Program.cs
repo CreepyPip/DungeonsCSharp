@@ -12,8 +12,9 @@ namespace Dungeons
 
         static void Main()
         {
-            int height = 200;
-            int width = 100;
+
+            int width = 80;
+            int height = width * 2;
             bool game = true;
             bool game2 = false;
 
@@ -137,7 +138,7 @@ namespace Dungeons
                                 InvIG.InBelt(Items[i]);
                             }
                             Thread.Sleep(2000);
-                            infExit = Gameplay.PlayingField(width, height, InvIG, fight, type);
+                            infExit = Gameplay.PlayingField(100, 200, InvIG, fight, type);
                             inf.LevelPlus();
                         }
                     }
