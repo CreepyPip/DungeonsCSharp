@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "1up+SeUevRw=",
+  "dgSpecHash": "GrKgmg2ppZw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Семён\\Documents\\C#\\DungeonsC#\\DungeonsC#\\DungeonsC#.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/home/ananas/Документы/DungeonsCSharp/DungeonsCSharp/DungeonsC#/DungeonsC#.csproj",
+  "expectedPackageFiles": [
+    "/home/ananas/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.32/microsoft.aspnetcore.app.ref.8.0.32.nupkg.sha512",
+    "/home/ananas/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.32/microsoft.netcore.app.host.linux-x64.8.0.32.nupkg.sha512"
+  ],
   "logs": []
 }

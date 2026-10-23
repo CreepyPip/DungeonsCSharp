@@ -189,9 +189,11 @@ namespace Dungeons
                     }
                     else 
                     {
+                        floor = 1;
                         GameFunctions.FloorInFile(1);
                     }
                     
+                    GameFunctions.FloorInFile(floor); // Ну может так пройдёт баг с незаписью этажа в файл
                     inv.FreeBag();
                     game2 = false;
                 }
