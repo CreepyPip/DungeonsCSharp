@@ -10,6 +10,7 @@ namespace Dungeons
     {
         public static char[] GenerateMaze(int width, int height, int density)
         {
+            density = (int)((double)density * 100.0 / (double)width);
             char[] A = new char[width * height];
             for (int i = 0; i < height * width; i++) A[i] = '#';
 
@@ -21,7 +22,7 @@ namespace Dungeons
             A[b] = 'E';
             points[0] = b + width;
 
-            b = width * height - (Program.Rnd.Next(width - 2));
+            b = width * height - (Program.Rnd.Next(2, width - 2));
             A[b] = 'S';
 
             double chance = ((double)checkpoints / ((double)width * (double)height)) * 100;

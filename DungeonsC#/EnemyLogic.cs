@@ -10,16 +10,16 @@ namespace Dungeons
     {
         public static int[] EnemyMove(string[][] A, int x, int y)
         {
-            if ((A[x + 1][y] == "@" || A[x - 1][y] == "@" || A[x][y + 1] == "@" || A[x][y - 1] == "@") && Program.Rnd.Next(0, 2) == 1)
+            if ((A[x + 1][y] == "@" || A[x - 1][y] == "@" || A[x][y + 1] == "@" || A[x][y - 1] == "@") && Program.Rnd.Next(0, 20) <= 15)
                 return new int[] { 11111 };
-            if (A[x + 1][y] == " " && Program.Rnd.Next(0, 5) < 1) return new int[] { x + 1, y };
-            if (A[x - 1][y] == " " && Program.Rnd.Next(0, 5) < 1) return new int[] { x - 1, y };
-            if (A[x][y + 1] == " " && Program.Rnd.Next(0, 5) < 1) return new int[] { x, y + 1 };
-            if (A[x][y - 1] == " " && Program.Rnd.Next(0, 5) < 1) return new int[] { x, y - 1 };
+            if (A[x + 1][y] == " " && Program.Rnd.Next(0, 4) < 1) return new int[] { x + 1, y };
+            if (A[x - 1][y] == " " && Program.Rnd.Next(0, 4) < 1) return new int[] { x - 1, y };
+            if (A[x][y + 1] == " " && Program.Rnd.Next(0, 4) < 1) return new int[] { x, y + 1 };
+            if (A[x][y - 1] == " " && Program.Rnd.Next(0, 4) < 1) return new int[] { x, y - 1 };
             return new int[0];
         }
 
-        public static string[][] IfEnemy(string[][] A, int x, int y)
+        public static string[][] IfEnemy(string[][] A, int x, int y, int width, int height)
         {
             string[][] B = new string[A.Length][];
             for (int i = 0; i < A.Length; i++) B[i] = (string[])A[i].Clone();
@@ -30,21 +30,21 @@ namespace Dungeons
             int yr = y + 10;
 
             while (xh < 0) xh++;
-            while (xl > 200) xl--;
+            while (xl > height) xl--;
             while (yl < 0) yl++;
-            while (yr > 100) yr--;
+            while (yr > width) yr--;
 
             for (int i = xh; i < xl; i++)
             {
                 for (int j = yl; j < yr; j++)
                 {
-                    if (A[i][j] == "&")
+                    if (A[i][j] == Types.EnemyType)
                     {
                         int[] em = EnemyMove(A, i, j);
                         if (em.Length > 0)
                         {
                             if (em[0] == 11111) return new string[][] { new string[] { "fight" } };
-                            else { B[i][j] = " "; B[em[0]][em[1]] = "&"; }
+                            else { B[i][j] = " "; B[em[0]][em[1]] = Types.EnemyType; }
                         }
                     }
                 }

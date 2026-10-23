@@ -1,0 +1,15 @@
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/bin/Debug/net8.0/DungeonsC#
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/bin/Debug/net8.0/DungeonsC#.deps.json
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/bin/Debug/net8.0/DungeonsC#.runtimeconfig.json
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/bin/Debug/net8.0/DungeonsC#.dll
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/bin/Debug/net8.0/DungeonsC#.pdb
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/obj/Debug/net8.0/DungeonsC#.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/obj/Debug/net8.0/DungeonsC#.AssemblyInfoInputs.cache
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/obj/Debug/net8.0/DungeonsC#.AssemblyInfo.cs
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/obj/Debug/net8.0/DungeonsC#.csproj.CoreCompileInputs.cache
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/obj/Debug/net8.0/DungeonsC#.sourcelink.json
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/obj/Debug/net8.0/DungeonsC#.dll
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/obj/Debug/net8.0/refint/DungeonsC#.dll
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/obj/Debug/net8.0/DungeonsC#.pdb
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/obj/Debug/net8.0/DungeonsC#.genruntimeconfig.cache
+/Users/ananas/Documents/C#/Dungeons/DungeonsCSharp/DungeonsC#/obj/Debug/net8.0/ref/DungeonsC#.dll
