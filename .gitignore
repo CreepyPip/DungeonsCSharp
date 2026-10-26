@@ -361,3 +361,40 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# ==========================================
+# КАСТОМНЫЕ ДОБАВЛЕНИЯ ДЛЯ ЭТОГО ПРОЕКТА
+# ==========================================
+
+# 1. macOS (КРИТИЧЕСКИ ВАЖНО для Mac)
+# Именно из-за .DS_Store чаще всего возникают глупые конфликты слияния на Маке
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# 2. VS Code / VSCodium (Состояние рабочего пространства)
+# Сами настройки (.vscode/settings.json) можно оставить, но кэш и личные запуски — нет
+.vscode/*.suo
+.vscode/*.user
+.vscode/*.userosscache
+.vscode/*.sln.docstates
+.vscode/tasks.json       # Личные задачи сборки
+.vscode/launch.json      # Личные конфигурации отладки
+
+# 3. Явное игнорирование файлов NuGet (которые вызывали недавний конфликт)
+# Стандартный шаблон их частично ловит, но лучше перестраховаться явно
+project.assets.json
+project.nuget.cache
+
+# 4. Файлы сохранений твоей игры
+# Судя по коду, ты используешь расширение .sosal для сохранений. 
+# Их ни в коем случае нельзя коммитить в репозиторий!
+*.sosal
+Player*.sosal
+saves/
+save_data/
+
+# 5. JetBrains Rider (на случай, если захочешь попробовать эту IDE в будущем)
+.idea/
+*.sln.iml
